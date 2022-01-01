@@ -210,6 +210,10 @@ let car = vehicleFactory.createVehicle('car');
 car.say();
 ```
 
+## 요약
+
+Creational Design Patterns의 Factory Method Pattern은 **생성자와 나머지 코드를 분리**하여 가상생성자라고도 불리며 Creator와 제품간의 결합도를 낮춰 새로운 유형의 제품을 쉽게 추가할 수 있도록 만들어준다.
+
 ## 참고 사이트
 
 - https://refactoring.guru/design-patterns/factory-method/typescript/example
