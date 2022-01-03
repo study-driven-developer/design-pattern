@@ -1,6 +1,0 @@
-:hardbreaks:
-:includedir: ./
-
-include::intro.adoc[]
-
-include::creational-pattern.adoc[]
