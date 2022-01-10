@@ -1,0 +1,2 @@
+- https://joonparkhere.netlify.app/post/design-pattern/intro/
+- https://joonparkhere.netlify.app/post/design-pattern/creational-pattern/
