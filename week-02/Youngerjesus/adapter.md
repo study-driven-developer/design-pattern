@@ -1,7 +1,7 @@
 # Adapter
 
 - 실생활 예) 110V ↔ 220V 로 꼽을 때 즉 변환이 필요한 경우에 사용하는게 어댑터
-- 클라이언트가 사용하는 인터페이스가 다를 때 원하는 인터페잇로 변환시키는 것.
+- 클라이언트가 사용하는 인터페이스와 내가 사용하는 인터페이스가 다를 때 원하는 인터페이스로 변환시키는 것.
 - 자세하게 설명하자면 클라이언트가 사용하는 인터페이스는 이미 만들어져있고, 내가 개발한 인터페이스도 이미 정해져있다. 이렇게 확정이 나있는 상황에서 클라이언트가 사용하고 있는 인터페이스로 변환해주고 싶을 때 사용한다.
     - 기존 코드의 수정없이 변환할 수 있도록 해주는 것.
 
@@ -22,7 +22,8 @@ public interface UserDetailsService {
 }
 ```
 
-그리고 실제 로그인 처리는 loginHandler 에서 일어난다.
+그리고 스프링 시큐리티의 실제 로그인 처리는 다음과 같이 loginHandler 에서 일어난다.
+- 실제로 이거와 똑같지 않다. 이런 플로우대로 코드가 정해져있다는 것만 알자.
 
 ```java
 public class LoginHandler {
@@ -44,9 +45,7 @@ public class LoginHandler {
 }
 ```
 
-스프링 시큐리티는 UserDetails 라는 형식(?) 을 통해서 인증을 수행하도록 프로세스를 정의해놨지만 우리 서비스에서의 인증 객체는 이것과 다르다.
-
-이건 서비스마다 다를 수 있다. 이걸 어떻게 해결할까?
+스프링 시큐리티는 UserDetails 라는 인터페이스를 통해서 인증을 수행하도록 프로세스를 정의해놨지만 우리가 만든 서비스에서의 인증할 객체는 이것과 다른 인터페이스일 것이다.
 
 다음은 우리 서비스에서 정의한 유저 객체와 서비스이다.
 
@@ -70,10 +69,14 @@ public class AccountService {
 }
 ```
 
+이 상황에서 인증을 수행할려면 어떻게 해결할까?
+
 이 경우 해결 방법은 스프링 시큐리티의 타입으로 변환해주는 작업이 필요하다.
 
-- Account → AccountUserDetails
-- AccountService → AccountUserDetailsService
+- Account → AccountUserDetails 
+  - (UserDetails 인터페이스 타입으로 변환)
+- AccountService → AccountUserDetailsService 
+  - (UserDetailsService 타입으로 변환)
 
 ```java
 public class AccountUserDetails implements UserDetails {
@@ -94,7 +97,6 @@ public class AccountUserDetails implements UserDetails {
 		return this.account.getPassword(); 
 	}
 }
-
 ```
 
 ```java
@@ -111,6 +113,8 @@ public class AccountUserDetailsService implements UserDetailsService {
 }
 ```
 
+이렇게 만들어놓고 우리가 만든 AccountUserDetails 와 AccountUserDetailsService 를 사용하도록 주입해주면 된다.
+
 ### 장점과 단점
 
 - 기존 클래스를 수정하지 않고 원하는 인터페이스로 만들 수 있다. 즉 기존 클래스가 하던 일은 하던 일대로 하고 변환하는 작업만 새로 만드는 것. (OCP 를 지킬 수 있다.)
@@ -120,9 +124,11 @@ public class AccountUserDetailsService implements UserDetailsService {
 
 - 기존의 존재하는 클래스를 이용해야하지만 인터페이스가 호환가능하지 않을때 어댑터 패턴을 사용하라.
     - Adapter Pattern 은 중간 계층을 하나 더 만드는 것.
-- 기존의 기능이 부족한 서브 클래스를 재사용 하고싶지만 기능이 부족할 때, 이 부족한 기능을 슈퍼 클래스에 넣기 힘들때 어댑터 패턴을 사용하면 해결할 수 있다.
+- 기존의 기능이 부족한 서브 클래스를 재사용 하고싶지만 기능이 부족할 때, 이 부족한 기능을 슈퍼 클래스에 넣기도 힘들때 어댑터 패턴을 사용하면 해결할 수 있다.
     - 물론 서브 클래스의 자식 클래스를 또 만들어서 해결할 수도 있다. 대신 이 경우는 코드 중복이 발생할 확률이 있음.
     - 데코레이터 패턴, 프록시 패턴과 유사한 방법이긴 함.
+- 중간 layer 로서의 역할이 필요할 때. 
+  - spring-mvc 의 HandlerAdapter 가 이런 일을 해주는 듯. 
 
 ### 실제 예
 

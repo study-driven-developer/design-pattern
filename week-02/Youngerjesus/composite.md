@@ -40,7 +40,7 @@ public class Client {
 - printPrice(bag) 의 경우 bag 의 내부 구현을 모두 안다는 단점이 있다. (객체 지향적으로 별로...)
 - 확장성 측면에서도 생각해보자. 캐릭터의 가격을 구한다고 생각해보면 printPrice(charcater) 를 구현하고 이 내부 구조도 모두 알아야 할 것이다.
 
-Composite 패턴을 사용ㅇ하면 이렇게 될 것이다.
+Composite 패턴을 사용하면 이렇게 될 것이다.
 
 ```java
 public interface Component {
@@ -68,7 +68,7 @@ public class Bag implements Component {
 
 	@Override 
 	public int getPrice() {
-		return this.components.stream().mapToInt(Item::getPrice).sum(); 
+		return this.components.stream().mapToInt(Component::getPrice).sum(); 
 	}
 }
 ```
@@ -114,7 +114,7 @@ public class Client {
 
 ### 실제로 사용하는 예
 
-spring-securirt 에서 AuthenticationManager 의 구현체인 ProviderManager 가 인증 처리 작업을 Composite pattern 을 이용해서 처리한다.
+spring-security 에서 AuthenticationManager 의 구현체인 ProviderManager 가 인증 처리 작업을 Composite pattern 을 이용해서 처리한다.
 
 ![composite.png](composite-example.png)
 
