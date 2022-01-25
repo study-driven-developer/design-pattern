@@ -1,0 +1,6 @@
+- Memento: https://joonparkhere.netlify.app/post/design-pattern/behavioral-pattern/memento/
+- Observer: https://joonparkhere.netlify.app/post/design-pattern/behavioral-pattern/observer/
+- State: https://joonparkhere.netlify.app/post/design-pattern/behavioral-pattern/state/
+- Strategy: https://joonparkhere.netlify.app/post/design-pattern/behavioral-pattern/strategy/
+- Template Method: https://joonparkhere.netlify.app/post/design-pattern/behavioral-pattern/template/
+- Visitor: https://joonparkhere.netlify.app/post/design-pattern/behavioral-pattern/visitor/
